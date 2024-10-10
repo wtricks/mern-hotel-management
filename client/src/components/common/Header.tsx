@@ -36,6 +36,12 @@ const Header = () => {
         }
     }, [dispatch, user.initial])
 
+    const onLogout = () => {
+        localStorage.removeItem('hm_token')
+        dispatch(setUser(null))
+        navigate('/')
+    }
+
     return (
         <header className="w-full bg-white md:shadow sticky top-0 z-50">
             <div className="w-full max-w-7xl px-6 py-3 mx-auto flex items-center justify-between relative">
@@ -63,6 +69,7 @@ const Header = () => {
                         <>
                             <Button variant="primary"  onClick={() => navigate("/profile")}>Profile</Button>
                             {user.user.role === "admin" && <Button variant="secondary"  onClick={() => navigate("/dashboard")}>Admin</Button>}
+                            {user.user.role !== "admin" && <Button variant="secondary"  onClick={onLogout}>Log out</Button>}
                         </>
                     )}
                 </div>
@@ -93,6 +100,7 @@ const Header = () => {
                         <>
                             <Button variant="primary" className="w-full" onClick={() => navigate("/profile")}>Profile</Button>
                             {user.user.role === "admin" && <Button variant="secondary" className="w-full"  onClick={() => navigate("/dashboard")}>Admin</Button>}
+                            {user.user.role !== "admin" && <Button variant="secondary" className="w-full"  onClick={onLogout}>Log out</Button>}
                         </>
                     )}
                 </div>

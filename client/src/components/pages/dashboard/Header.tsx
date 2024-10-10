@@ -39,9 +39,14 @@ const Header = ({ onClickMenu, title }: { onClickMenu: () => void, title: string
                 <h1 className="text-xl font-bold">{title}</h1>
             </div>
 
-            <Button type="button" onClick={onLogout}>
-                Log out
-            </Button>
+            <div className="flex items-center space-x-4">
+                <Button type="button" onClick={() => navigate('/')}>
+                    Site
+                </Button>
+                <Button type="button" onClick={onLogout}>
+                    Log out
+                </Button>
+            </div>
         </header>
     );
 };
