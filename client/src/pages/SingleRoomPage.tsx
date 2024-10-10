@@ -20,7 +20,10 @@ const SingleRoomPage = () => {
     const [search] = useSearchParams()
 
     useEffect(() => {
-        api.get(`/rooms/${params.roomId}`).then((res) => setRoom(res.data.data))
+        api.get(`/rooms/${params.roomId}`).then((res) => {
+            setRoom(res.data.data)
+            document.title = `${res.data.data.name} | Hotel Booking`
+        })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -50,8 +53,6 @@ const SingleRoomPage = () => {
         } else if (type == 'cancel') {
             toast.error('Booking cancelled!, Please try again');
         }
-
-        document.title = `${room.name} | Hotel Booking`
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -60,7 +61,7 @@ const SingleRoomPage = () => {
             <Header />
             <HeroSection
                 image={baseUrl + room.image}
-                name="Dealux Room"
+                name={room.name!}
                 onButtonClick={onBookRoom}
                 buttontext="Book now"
                 loading={loading}
