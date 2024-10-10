@@ -88,7 +88,6 @@ export const createBooking = async (req, res) => {
             metadata: {
                 bookingId: booking._id.toString()
             },
-            customer_email: user.email,
             customer: customer
         });
 
