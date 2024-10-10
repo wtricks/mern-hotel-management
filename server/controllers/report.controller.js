@@ -134,14 +134,20 @@ export const getStats = async (req, res) => {
 
         const totalUsers = await User.countDocuments();
         const totalBookings = await Booking.countDocuments();
-        const totalPayements = await Payment.countDocuments({ status: 'completed' });
+
+        const totalPayments = await Payment.aggregate([
+            { $match: { status: 'completed' } }, // Filter only 'completed' payments
+            { $group: { _id: null, totalAmount: { $sum: "$amount" } } } // Sum the 'amount' field
+        ]);
+
+        const totalAmount = totalPayments.length > 0 ? totalPayments[0].totalAmount : 0;
 
         res.status(200).json({ data: {
             totalRooms,
             occupiedRooms,
             totalUsers,
             totalBookings,
-            totalPayements
+            totalAmount
         }});
     } catch (error) {
         console.error(error);

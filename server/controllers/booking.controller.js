@@ -165,8 +165,7 @@ export const confirmPayment = async (req, res) => {
     const sig = req.headers['stripe-signature'];
 
     try {
-        const event = stripeClient().webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-
+        const event = stripeClient().webhooks.constructEvent(req.rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
         // Handle successful payment
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object;
@@ -180,7 +179,7 @@ export const confirmPayment = async (req, res) => {
                     amount: booking.totalPrice,
                     paymentMethod: 'online',
                     status: 'completed',
-                    paymentIntentId: session.payment_intent,
+                    paymentIntentId: session.payment_intent.id,
                 });
 
                 await payment.save();

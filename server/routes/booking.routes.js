@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { check, param } from "express-validator";
-import bodyParser from "body-parser";
 
 import {
     createBooking,
@@ -60,7 +59,7 @@ bookingRoutes.get('/user', authMiddleware, getUserBookings);
 // @route   POST /api/bookings/confirm-payment
 // @desc    Confirm payment
 // @access  Public (WebHook)
-bookingRoutes.post('/confirm-payment', bodyParser.raw({ type: 'application/json' }), confirmPayment);
+bookingRoutes.post('/confirm-payment', confirmPayment);
 
 // @route   POST /api/bookings/manual-payment
 // @desc    Confirm manual payment

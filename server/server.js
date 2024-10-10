@@ -17,7 +17,12 @@ dotenv.config() // Load environment variables from .env file
 
 const app = express()
 
-app.use(express.json())
+app.use(express.json({ verify: (req, _res, buffer) => {
+    if (req.originalUrl.startsWith('/api/bookings/confirm-payment')) {
+        req.rawBody = buffer // store raw request body
+    }
+}}))
+
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 app.use('/uploads', express.static('uploads'))

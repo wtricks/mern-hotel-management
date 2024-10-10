@@ -12,7 +12,7 @@ const Dashboard = () => {
         occupiedRooms: 0,
         totalUsers: 0,
         totalBookings: 0,
-        totalPayements: 0
+        totalAmount: 0
     });
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const Dashboard = () => {
                 />
                 <DashboardCard
                     title="Earnings"
-                    count={`$${dashboardData.totalPayements}`}
+                    count={`$${dashboardData.totalAmount}`}
                     color="bg-green-500"
                     icon={<FaDollarSign className="text-2xl"></FaDollarSign>}
                 />
