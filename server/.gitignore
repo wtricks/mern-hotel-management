@@ -18,7 +18,7 @@ logs/
 .env.production.local
 
 # uploads files
-uploads
+uploads/
 
 # Coverage directory used by testing tools
 coverage/
