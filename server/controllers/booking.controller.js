@@ -67,7 +67,7 @@ export const createBooking = async (req, res) => {
             customer = tempCustomer.id;
 
             // store customer id
-            user.customerId = tempCustomer.id;
+            user.stripeCustomerId = tempCustomer.id;
             await user.save();
         }
 
