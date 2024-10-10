@@ -4,6 +4,7 @@ import Booking from '../models/booking.model.js';
 import Payment from '../models/payment.model.js';
 import Room from '../models/room.model.js';
 import GuestFeedback from '../models/feedback.model.js';
+import User from '../models/user.model.js';
 
 // TODO: We don't need a function here:
 const stripeClient = () => {
@@ -19,6 +20,11 @@ export const createBooking = async (req, res) => {
         const room = await Room.findById(roomId);
         if (!room) {
             return res.status(404).json({ message: 'Room not found' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
         // Calculate total price (customize based on your pricing logic)
@@ -54,6 +60,18 @@ export const createBooking = async (req, res) => {
             cancel_url: `${process.env.FRONTEND_URL}/rooms/${roomId}?session_id={CHECKOUT_SESSION_ID}&type=cancel`,
             metadata: {
                 bookingId: booking._id.toString()
+            },
+
+            // TODO: Add customer details from user model
+            customer_details: {
+                name: user.name,
+                address: {
+                    line1: 'Khurja',
+                    city: 'Khurja',
+                    state: 'UP',
+                    country: 'IN',
+                    postal_code: 203131
+                }
             }
         });
 
