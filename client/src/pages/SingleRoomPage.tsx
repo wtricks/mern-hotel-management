@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import Footer from "../components/common/Footer"
 import Header from "../components/common/Header"
 import HeroSection from "../components/pages/rooms/HeroSection"
@@ -9,12 +9,15 @@ import { type Room } from "../components/pages/dashboard/RoomModal";
 import api, { baseUrl } from "../api";
 import Modal from "../components/common/Modal";
 import BookingForm from "../components/pages/rooms/BookingForm";
+import { toast } from "react-toastify";
 
 const SingleRoomPage = () => {
     const [room, setRoom] = useState<Partial<Room>>({})
     const params = useParams()
     const [loading, setLoading] = useState(false)
     const [showModal, setShowModal] = useState(false)
+
+    const [search] = useSearchParams()
 
     useEffect(() => {
         api.get(`/rooms/${params.roomId}`).then((res) => setRoom(res.data.data))
@@ -38,6 +41,16 @@ const SingleRoomPage = () => {
                 window.location.href =  res.data.data.url
             }).finally(() => setLoading(false))
     }
+
+    useEffect(() => {
+        const type = search.get('type');
+
+        if (type == 'success') {
+            toast.success('Booking successful!, You can now check-in to the room');
+        } else if (type == 'cancel') {
+            toast.error('Booking cancelled!, Please try again');
+        }
+    }, [])
 
     return (
         <>
