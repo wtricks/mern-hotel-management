@@ -68,7 +68,7 @@ const BodySection: React.FC = () => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userinfo.user]);
 
     useEffect(() => {
         const fetchBookings = async () => {
