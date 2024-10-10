@@ -27,6 +27,18 @@ const userSchema = new mongoose.Schema({
     address: {
         type: String,
     },
+    state: {
+        type: String,
+    },
+    postalCode: {
+        type: String,
+    },
+    country: {
+        type: String,
+    },
+    stripeCustomerId: {
+        type: String,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

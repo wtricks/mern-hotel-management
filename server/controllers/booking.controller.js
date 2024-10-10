@@ -42,6 +42,33 @@ export const createBooking = async (req, res) => {
 
         await booking.save();
 
+
+        // createa customer if not exist
+        let customer;
+        if ((user.stripeCustomerId)) {
+            customer = user.stripeCustomerId;
+        } else {
+            const tempCustomer = await stripeClient().customers.create({
+                email: user.email,
+                name: user.name,
+
+                // TODO: add address from user model
+                address: {
+                    line1: 'Khurja',
+                    city: 'Khurja',
+                    state: 'UP',
+                    country: 'IN',
+                    postal_code: 203131
+                }
+            });
+
+            customer = tempCustomer.id;
+
+            // store customer id
+            user.customerId = tempCustomer.id;
+            await user.save();
+        }
+
         // Create a Stripe session for payment
         const session = await stripeClient().checkout.sessions.create({
             payment_method_types: ['card'],
@@ -61,18 +88,8 @@ export const createBooking = async (req, res) => {
             metadata: {
                 bookingId: booking._id.toString()
             },
-
-            // TODO: Add customer details from user model
-            customer_details: {
-                name: user.name,
-                address: {
-                    line1: 'Khurja',
-                    city: 'Khurja',
-                    state: 'UP',
-                    country: 'IN',
-                    postal_code: 203131
-                }
-            }
+            customer_email: user.email,
+            customer: customer
         });
 
         res.status(201).json({ data: { bookingId: booking._id, sessionId: session.id, url: session.url } });
