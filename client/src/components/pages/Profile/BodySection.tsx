@@ -50,6 +50,9 @@ const BodySection: React.FC = () => {
         email: '',
         phone: '',
         address: '',
+        postalCode: '',
+        country: '',
+        state: '',
         preferences: '',
     });
 
@@ -64,10 +67,12 @@ const BodySection: React.FC = () => {
                 email: userinfo.user.email,
                 phone: userinfo.user.phone,
                 address: userinfo.user.address,
+                state: userinfo.user.state,
+                postalCode: userinfo.user.postalCode,
+                country: userinfo.user.country,
                 preferences: Object.keys(userinfo.user.preferences || {}).join(",")
             })
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userinfo.user]);
 
     useEffect(() => {
@@ -88,7 +93,7 @@ const BodySection: React.FC = () => {
         const data = { ...user, preferences: user.preferences.split(",").reduce((acc, pref) => ({ ...acc, [pref]: "true" }), {}) }
 
         setLoading(true)
-        api.put('/users/' + userinfo.user!._id,data)
+        api.put('/users/' + userinfo.user!._id, data)
             .then(() => {
                 toast.success('Profile updated successfully!');
                 dispatch(setLocalUser({ ...userinfo.user!, ...data }))
@@ -130,44 +135,76 @@ const BodySection: React.FC = () => {
             {searchTerm === 'profile' && (
                 <div className="flex-1 ml-12">
                     <form onSubmit={handleUpdateProfile}>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Name</label>
-                            <input
-                                type="text"
-                                value={user.name}
-                                onChange={(e) => setUser({ ...user, name: e.target.value })}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                            />
-                        </div>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Name</label>
+                                <input
+                                    type="text"
+                                    value={user.name}
+                                    onChange={(e) => setUser({ ...user, name: e.target.value })}
+                                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                                />
+                            </div>
 
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Email</label>
-                            <input
-                                type="email"
-                                value={user.email}
-                                onChange={(e) => setUser({ ...user, email: e.target.value })}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                            />
-                        </div>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Email</label>
+                                <input
+                                    type="email"
+                                    value={user.email}
+                                    onChange={(e) => setUser({ ...user, email: e.target.value })}
+                                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                                />
+                            </div>
 
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Phone</label>
-                            <input
-                                type="tel"
-                                value={user.phone}
-                                onChange={(e) => setUser({ ...user, phone: e.target.value })}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                            />
-                        </div>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Phone</label>
+                                <input
+                                    type="tel"
+                                    value={user.phone}
+                                    onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                                />
+                            </div>
 
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Address</label>
-                            <input
-                                type="text"
-                                value={user.address}
-                                onChange={(e) => setUser({ ...user, address: e.target.value })}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                            />
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Address 1</label>
+                                <input
+                                    type="text"
+                                    value={user.address}
+                                    onChange={(e) => setUser({ ...user, address: e.target.value })}
+                                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">State</label>
+                                <input
+                                    type="text"
+                                    value={user.state}
+                                    onChange={(e) => setUser({ ...user, state: e.target.value })}
+                                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Country</label>
+                                <input
+                                    type="text"
+                                    value={user.country}
+                                    onChange={(e) => setUser({ ...user, country: e.target.value })}
+                                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Postal Code</label>
+                                <input
+                                    type="text"
+                                    value={user.postalCode}
+                                    onChange={(e) => setUser({ ...user, postalCode: e.target.value })}
+                                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                                />
+                            </div>
                         </div>
 
                         <div className="mb-4">
@@ -188,6 +225,7 @@ const BodySection: React.FC = () => {
                             Update Profile
                         </Button>
                     </form>
+
                 </div>
             )}
 

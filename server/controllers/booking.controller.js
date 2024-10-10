@@ -48,17 +48,19 @@ export const createBooking = async (req, res) => {
         if ((user.stripeCustomerId)) {
             customer = user.stripeCustomerId;
         } else {
+            if (!user.email || !user.name || !user.address || !user.state || !user.country || !user.postalCode) {
+                return res.status(400).json({ message: 'Please complete your profile' });
+            }
+
             const tempCustomer = await stripeClient().customers.create({
                 email: user.email,
                 name: user.name,
-
-                // TODO: add address from user model
                 address: {
-                    line1: 'Khurja',
-                    city: 'Khurja',
-                    state: 'UP',
-                    country: 'IN',
-                    postal_code: 203131
+                    line1: user.address,
+                    city: user.city,
+                    state: user.state,
+                    country: user.country,
+                    postal_code: user.postalCode
                 }
             });
 

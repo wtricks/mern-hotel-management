@@ -119,10 +119,9 @@ Both the frontend and backend servers should now be running on:
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-```
+This project is licensed under the [MIT License](LICENSE)
 
-### Instructions:
+### Instructions
+
 - Replace the empty Stripe keys in `.env` with your actual keys.
 - The project uses `pnpm` for dependency management, so make sure to install it.
-

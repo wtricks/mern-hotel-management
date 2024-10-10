@@ -7,6 +7,9 @@ interface User {
     role: string
     phone: string
     address: string
+    state: string
+    country: string
+    postalCode: string
     preferences: Record<string, string>
     createdAt: Date
 }
