@@ -50,6 +50,8 @@ const SingleRoomPage = () => {
         } else if (type == 'cancel') {
             toast.error('Booking cancelled!, Please try again');
         }
+
+        document.title = `${room.name} | Hotel Booking`
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
