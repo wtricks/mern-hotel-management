@@ -36,7 +36,7 @@ const SignUp = () => {
         }
 
         setLoading(true);
-        api.post('/auth/login', { email, password, name: username })
+        api.post('/auth/register', { email, password, name: username })
             .then((res) => {
                 localStorage.setItem('hm_token', res.data.data.token);
                 navigate('/');
