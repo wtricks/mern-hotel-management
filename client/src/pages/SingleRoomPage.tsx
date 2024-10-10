@@ -50,6 +50,7 @@ const SingleRoomPage = () => {
         } else if (type == 'cancel') {
             toast.error('Booking cancelled!, Please try again');
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
